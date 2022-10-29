@@ -4,6 +4,7 @@ header('Content-Type: application/json');
 include_once('../database/constants.php');
 include_once('./service.php');
 include_once('./user.php');
+include_once('./report.php');
 
 $path = '../images/profiles/';
 
@@ -24,6 +25,12 @@ if (isset($_POST['uploadUserProfile'])) {
 	}else{
 		echo json_encode("NO_FILE_FOUND");
 	}
+}
+
+if (isset($_POST["generateOrder"])) {
+	$r = new Report();
+	$result = $r->generateOrder($_POST['orderrefno'], $_POST['userid']);
+	echo json_encode($result);
 }
 
 if (isset($_POST["registerUser"])) {
