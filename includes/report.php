@@ -16,7 +16,7 @@ class Report
 	public function generateOrder($order_refno, $userid){
 		$timestamp = time();
 		$pdf = new FPDF('P','mm','A4');
-		$pdf->SetFillColor(117,117,108);
+		$pdf->SetFillColor(255,255,255);
 		$pdf->AddPage();
 		$pdf->SetTitle('VegeFood Orders');
 		$pdf->SetFont('Times');
@@ -31,9 +31,9 @@ class Report
 		$pdf->SetTextColor(9,9,9);
 		$pdf->cell(190, 12, date("F d, Y H:i A", $timestamp), 0, 1, "R", false);
 		$pdf->SetFillColor(255, 255, 255);
-		$pdf->cell(190, 10, '', 0, 1);
+		$pdf->cell(190, 20, '', 0, 1, true);
 		$pdf->SetFont('Times', 'B', '13');
-		$pdf->cell(190,12,'','L',true);
+		//$pdf->cell(190,12,'','L',true);
 		$pdf->SetFillColor(45, 206, 137);
 		$pdf->SetTextColor(255, 255, 255);
 		$pdf->cell(190,12,'Order Details',0,1,'C',true);
