@@ -42,8 +42,9 @@ class Report
 		$orders = $s->getOrderItems($order_refno);
 
 		$pdf->SetFont('Times', 'B', '13');
-		$pdf->SetTextColor(45,206,137);
+		$pdf->SetTextColor(9,9,9);
 		$pdf->SetFillColor(255,255,255);
+		$pdf->SetDrawColor(45,206,137);
 
 		$pdf->cell(10,10,"#",1,0,'C',true);
 		$pdf->cell(55,10,"Name",1,0,'C',true);
