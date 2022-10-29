@@ -19,13 +19,24 @@ class Report
 		$pdf->SetFillColor(117,117,108);
 		$pdf->AddPage();
 		$pdf->SetTitle('VegeFood Orders');
-
+		$pdf->SetFont('Times');
 		$pdf->SetTextColor(117,117,60);
-		$pdf->cell(50, 50, $pdf->Image('../images/icons/logo_only.png', $pdf->GetX(), $pdf->GetY(), 40), 0, 0, 'L', false);
-		$pdf->cell(140, 40, "VegeFood", 0, 1, 'L', false);
+		$pdf->cell(190, 50, $pdf->Image('../images/icons/logo_only.png', $pdf->GetX(), $pdf->GetY(), 40), 0, 1, 'C', false);
+		$pdf->cell(190, 5, '', 0, 1);
+		$pdf->SetFont('Times', 'B', '20');
+		$pdf->SetTextColor(1,1,1);
+		$pdf->cell(190, 40, "VegeFood", 0, 1, 'C', false);
+		$pdf->cell(190, 5, '', 0, 1);
+		$pdf->SetFont('Times', 'B', '14');
+		$pdf->SetTextColor(9,9,9);
+		$pdf->cell(190, 12, date("F d, Y H:i A", $timestamp), 0, 1, "R", false);
 		$pdf->PageNo();
 		$pdf->Output("../reports/order".$order_refno.$timestamp.".pdf","F");
+		return $timestamp;
 	}
 }
+
+//$r = new Report();
+//echo $r->generateOrder("1", "2");
 
 ?>
