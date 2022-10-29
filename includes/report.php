@@ -78,7 +78,7 @@ class Report
 
 		$pdf->PageNo();
 		$pdf->Output("../reports/order".$order_refno.$timestamp.".pdf","F");
-		return $timestamp;
+		return "order".$order_refno.$timestamp."pdf";
 	}
 }
 
