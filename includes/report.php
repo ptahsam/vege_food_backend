@@ -30,9 +30,9 @@ class Report
 		$pdf->SetFont('Times', 'B', '10');
 		$pdf->SetTextColor(9,9,9);
 		$pdf->cell(190, 12, date("F d, Y H:i A", $timestamp), 0, 1, "R", false);
+		$pdf->SetFillColor(255, 255, 255);
 		$pdf->cell(190, 10, '', 0, 1);
 		$pdf->SetFont('Times', 'B', '13');
-		$pdf->SetFillColor(255, 255, 255);
 		$pdf->cell(190,12,'','L',true);
 		$pdf->SetFillColor(45, 206, 137);
 		$pdf->SetTextColor(255, 255, 255);
