@@ -38,6 +38,17 @@ class Report
 		$pdf->SetTextColor(255, 255, 255);
 		$pdf->cell(190,12,'Order Details',0,1,'C',true);
 
+		$s = new Service();
+		$orders = $s->getOrderItems($_POST['order_refno']);
+
+		$pdf->SetFont('Times', 'B', '13');
+		$pdf->SetTextColor(9,9,9);
+
+		$pdf->cell(10,10,"#",1,0,'C',true);
+		$pdf->cell(55,10,"Name",1,0,'C',true);
+		$pdf->cell(70,10,"Quantity",1,0,'C',true);
+		$pdf->cell(55,10,"Price",1,1,'C',true);
+
 
 		$pdf->PageNo();
 		$pdf->Output("../reports/order".$order_refno.$timestamp.".pdf","F");
