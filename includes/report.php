@@ -32,9 +32,11 @@ class Report
 		$pdf->cell(190, 12, date("F d, Y H:i A", $timestamp), 0, 1, "R", false);
 		$pdf->cell(190, 10, '', 0, 1);
 		$pdf->SetFont('Times', 'B', '13');
-		$pdf->SetTextColor(45, 206, 137);
-		$pdf->cell(10,12,'','L',true);
-		$pdf->cell(180,12,'Order Details',0,1,'L',true);
+		$pdf->SetFillColor(255, 255, 255);
+		$pdf->cell(190,12,'','L',true);
+		$pdf->SetFillColor(45, 206, 137);
+		$pdf->SetTextColor(255, 255, 255);
+		$pdf->cell(190,12,'Order Details',0,1,'C',true);
 
 
 		$pdf->PageNo();
