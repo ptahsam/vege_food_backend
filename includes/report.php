@@ -39,7 +39,7 @@ class Report
 		$pdf->cell(190,12,'Order Details',0,1,'C',true);
 
 		$s = new Service();
-		$orders = $s->getOrderItems($_POST['order_refno']);
+		$orders = $s->getOrderItems($order_refno);
 
 		$pdf->SetFont('Times', 'B', '13');
 		$pdf->SetTextColor(9,9,9);
