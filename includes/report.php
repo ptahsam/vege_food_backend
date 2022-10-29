@@ -40,6 +40,7 @@ class Report
 
 		$s = new Service();
 		$orders = $s->getOrderItems($order_refno);
+		$n = 1;
 
 		$pdf->SetFont('Times', 'B', '13');
 		$pdf->SetTextColor(9,9,9);
@@ -51,6 +52,13 @@ class Report
 		$pdf->cell(70,10,"Quantity",1,0,'C',true);
 		$pdf->cell(55,10,"Price",1,1,'C',true);
 
+		foreach ($orders as $order) {
+			$n = $n + 1;
+			$pdf->cell(10,10,$n.'.',1,0,'C',false);
+			$pdf->cell(55,10,$order["product_name"],1,0,'L',false);
+			$pdf->cell(70,10,$order["items_no"],1,0,'L',false);
+			$pdf->cell(55,10,$order["items_no"]*$order["product_price"],1,1,'L',false);
+		}
 
 		$pdf->PageNo();
 		$pdf->Output("../reports/order".$order_refno.$timestamp.".pdf","F");
