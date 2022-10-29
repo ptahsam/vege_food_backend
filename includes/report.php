@@ -36,7 +36,8 @@ class Report
 		//$pdf->cell(190,12,'','L',true);
 		$pdf->SetFillColor(45, 206, 137);
 		$pdf->SetTextColor(255, 255, 255);
-		$pdf->cell(190,12,'Order Details',0,1,'C',true);
+		$pdf->cell(95,12,'Order Details',0,0,'L',true);
+		$pdf->cell(95,12,'Order ID:'.strtoupper($order_refno),0,1,'R',true);
 
 		$s = new Service();
 		$orders = $s->getOrderItems($order_refno);
@@ -62,7 +63,7 @@ class Report
 			$totalproducts = $totalproducts + $order["items_no"];
 			$totalprice = $totalprice + ($order["items_no"]*$order["product_price"]);
 			$pdf->cell(10,10,$n.'.',1,0,'C',false);
-			$pdf->cell(70,10,$order["product_name"],1,0,'C',false);
+			$pdf->cell(70,10,$order["product_name"],1,0,'L',false);
 			$pdf->cell(40,10,$order["items_no"],1,0,'C',false);
 			$pdf->cell(40,10,$order["product_price"],1,0,'C',false);
 			$pdf->cell(30,10,$order["items_no"]*$order["product_price"],1,1,'C',false);
