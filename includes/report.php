@@ -11,6 +11,7 @@ class Report
 		include_once("../vendor/fpdf/fpdf.php");
 		include_once("./service.php");
 		include_once("./user.php");
+		include_once("./sendmail.php");
 	}
 
 	public function generateOrder($order_refno, $userid){
@@ -78,7 +79,24 @@ class Report
 
 		$pdf->PageNo();
 		$pdf->Output("../reports/order".$order_refno.$timestamp.".pdf","F");
-		return "order".$order_refno.$timestamp.".pdf";
+
+		$pdfname = "order".$order_refno.$timestamp.".pdf";
+		$pdfpath = "../reports/".$pdfname;
+
+		$u = new User();
+		$user = $u->getUserData($userid);
+		$useremail = $user["user_email"];
+
+		$subject = "A new order from VegeFood";
+
+		$message = "<p><h4>Hello, ".$user["user_name"]."</h4></br>
+			We are glad to email you the order that you requested. 
+		</p>";
+
+		$m = new Email();
+		$result = $m->endEmailWithPDF($useremail, $subject, $message, $pdfpath, $pdfname);
+
+		return $result; 
 	}
 }
 
