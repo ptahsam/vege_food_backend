@@ -90,11 +90,13 @@ class User
 				return "UNKNOWN_ERROR";
 			}
 		}else{
+			$row = $result->fetch_assoc();
+			$id = $row['id'];
 			$pre_stmt = $this->con->prepare("UPDATE `users` SET `user_name` = ?, `user_email` = ?, `user_photo` = ? WHERE user_email = ?");
 			$pre_stmt->bind_param("ssss", $name, $email, $photo, $email);
 			$result = $pre_stmt->execute() or die($this->con->error);
 			if($result) {
-				return $this->getUserData($pre_stmt->insert_id);
+				return $this->getUserData($id);
 			}else{
 				return "UNKNOWN_ERROR";
 			}
