@@ -128,4 +128,5 @@ if (isset($_POST['getProductsByCategory'])) {
 	$rows = $s->getProductsByCategory($_POST['category_id']);
 	echo json_encode($rows);
 }
+
 ?>
