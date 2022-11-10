@@ -90,6 +90,7 @@ class User
 				return "UNKNOWN_ERROR";
 			}
 		}else{
+			$row = $result->fetch_assoc();
 			if ($this->updateUserDetails("user_name", $name, $pre_stmt->$row['id']) == "SUCCESSFULLY_UPDATED") {
 				if ($this->updateUserDetails("user_email", $email, $pre_stmt->$row['id']) == "SUCCESSFULLY_UPDATED") {
 					if ($this->updateUserDetails("user_photo", $photo, $pre_stmt->$row['id']) == "SUCCESSFULLY_UPDATED") {
