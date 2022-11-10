@@ -39,6 +39,12 @@ if (isset($_POST["registerUser"])) {
 	echo json_encode($result);
 }
 
+if (isset($_POST["googleSignIn"])) {
+	$u = new User();
+	$result = $u->googleSignIn($_POST["name"], $_POST["email"], $_POST["photo"]);
+	echo json_encode($result);
+}
+
 if (isset($_POST["loginUser"])) {
 	$u = new User();
 	$result = $u->userLogin($_POST["identifier"], $_POST['password']);

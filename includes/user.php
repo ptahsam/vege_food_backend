@@ -70,6 +70,36 @@ class User
 		}
 	}
 
+	public function googleSignIn($name, $email, $photo){
+		$pre_stmt = $this->con->prepare("SELECT * FROM users WHERE user_email = ?");
+		$pre_stmt->bind_param("s", $email);
+		$pre_stmt->execute() or die($this->con->error);
+		$result = $pre_stmt->get_result();
+		if ($result->num_rows < 1) {
+			$phone = "";
+			$pass = "";
+			$date_added = time();
+			$pre_stmt = $this->con->prepare("INSERT INTO `users`(`user_name`, `user_phone`, `user_email`, `user_photo`, `user_password`, `date_added`) VALUES (?,?,?,?,?,?)");
+			$pre_stmt->bind_param("ssssss", $name, $phone, $email, $photo, $pass, $date_added);
+			$result = $pre_stmt->execute() or die($this->con->error);
+			if($result) {
+				if($this->addUserAddress($pre_stmt->insert_id) == "SUCCESSFULLY_REGISTERED"){
+					return $this->getUserData($pre_stmt->insert_id);
+				}else return "UNKNOWN_ERROR";
+			}else{
+				return "UNKNOWN_ERROR";
+			}
+		}else{
+			if ($this->updateUserDetails("user_name", $name, $pre_stmt->$row['id']) == "SUCCESSFULLY_UPDATED") {
+				if ($this->updateUserDetails("user_email", $email, $pre_stmt->$row['id']) == "SUCCESSFULLY_UPDATED") {
+					if ($this->updateUserDetails("user_photo", $photo, $pre_stmt->$row['id']) == "SUCCESSFULLY_UPDATED") {
+						return $this->getUserData($row['id']);
+					}
+				}
+			}
+		}
+	}
+
 	public function userLogin($identifier, $password)
 	{
 		$pre_stmt = $this->con->prepare("SELECT * FROM users WHERE user_phone = ? OR user_email = ?");
