@@ -90,20 +90,15 @@ class User
 				return "UNKNOWN_ERROR";
 			}
 		}else{
-			$row = $result->fetch_assoc();
-			if ($this->updateUserDetails("user_name", $name, $pre_stmt->$row['id']) == "SUCCESSFULLY_UPDATED") {
-				if ($this->updateUserDetails("user_email", $email, $pre_stmt->$row['id']) == "SUCCESSFULLY_UPDATED") {
-					if ($this->updateUserDetails("user_photo", $photo, $pre_stmt->$row['id']) == "SUCCESSFULLY_UPDATED") {
-						return $this->getUserData($row['id']);
-					}else{
-						return "UNKNOWN_ERROR";
-					}
-				}else{
-					return "UNKNOWN_ERROR";
-				}
+			$pre_stmt = $this->con->prepare("UPDATE `users` SET `user_name` = ?, `user_email` = ?, `user_photo` = ? WHERE user_email = ?");
+			$pre_stmt->bind_param("ssss", $name, $email, $photo, $email);
+			$result = $pre_stmt->execute() or die($this->con->error);
+			if($result) {
+				return $this->getUserData($pre_stmt->insert_id);
 			}else{
 				return "UNKNOWN_ERROR";
 			}
+			
 		}
 	}
 
