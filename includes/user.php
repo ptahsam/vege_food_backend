@@ -95,8 +95,14 @@ class User
 				if ($this->updateUserDetails("user_email", $email, $pre_stmt->$row['id']) == "SUCCESSFULLY_UPDATED") {
 					if ($this->updateUserDetails("user_photo", $photo, $pre_stmt->$row['id']) == "SUCCESSFULLY_UPDATED") {
 						return $this->getUserData($row['id']);
+					}else{
+						return "UNKNOWN_ERROR";
 					}
+				}else{
+					return "UNKNOWN_ERROR";
 				}
+			}else{
+				return "UNKNOWN_ERROR";
 			}
 		}
 	}
