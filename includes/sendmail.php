@@ -9,7 +9,7 @@ use PHPMailer\PHPMailer\Exception;
 class Email
 {
 	
-	$private $con;
+	private $con;
 	function __construct()
 	{
 		include_once("../database/db.php");
@@ -17,33 +17,37 @@ class Email
 
 		$db = new Database();
 		$this->con = $db->connect();
-		$mail = new PHPMailer(true);
 	}
 
 	public function sendEmailWithPDF($useremail, $subject, $message, $pdfpath, $pdfname)
 	{
-		
+		$mail = new PHPMailer(true);
 		try {
-			$mail->isSMTP();
-			$mail->HOST = 'smtp.gmail.com';
-			$mail->SMTPAuth = true;
-			$mail->Username = 'petersamuelsam6@gmail.com';
-			$mail->Password = '0703861887';
-			$mail->SMTPOptions = array(
-				'ssl' => array(
-					'verify_peer' => false,
-					'verify_peer_name' => false,
-					'allow_self_signed' => true
-				)
-			);
-			$mail->SMTPSecure = 'ssl';
-			$mail->Port = 445;
+			//Server settings
+	        $mail->isSMTP();                                     
+	        $mail->Host = 'smtp.gmail.com';                      
+	        $mail->SMTPAuth = true;                               
+	        $mail->Username = 'petersamuelsam6@gmail.com';     
+	        $mail->Password = 'ffshuinhthmofvzb';                    
+	        $mail->SMTPOptions = array(
+	            'ssl' => array(
+	            'verify_peer' => false,
+	            'verify_peer_name' => false,
+	            'allow_self_signed' => true
+	            )
+	        );                         
+	        $mail->SMTPSecure = 'ssl';                           
+	        $mail->Port = 465;                                   
 
-			$mail->setFrom($useremail);
-			$mail->addAddress('petersamuelsam6@gmail.com');
-			$mail->addReplyTo($useremail);
-
-			$mail->isHTML(true);
+	        $mail->setFrom('petersamuelsam6@gmail.com');
+	        
+	        //Recipients
+	        $mail->addAddress($useremail);
+	        //$mail->addAddress($useremail);               
+	        $mail->addReplyTo('petersamuelsam6@gmail.com');
+	       
+	        //Content
+	        $mail->isHTML(true); 
 			$mail->AddAttachment($pdfpath, $pdfname);
 
 			$mail->Subject = $subject;

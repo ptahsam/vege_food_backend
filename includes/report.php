@@ -94,13 +94,13 @@ class Report
 		</p>";
 
 		$m = new Email();
-		$result = $m->endEmailWithPDF($useremail, $subject, $message, $pdfpath, $pdfname);
+		$result = $m->sendEmailWithPDF($useremail, $subject, $message, $pdfpath, $pdfname);
 
 		return $result; 
 	}
 }
 
 //$r = new Report();
-//echo $r->generateOrder("1", "2");
+//echo $r->generateOrder("VG636b9fd91a731", "1");
 
 ?>
