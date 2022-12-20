@@ -1,0 +1,40 @@
+User: ::1 - November 30, 2022, 10:34 am
+:MerchantRequestID: 2297-36135847-1
+:CheckoutRequestID: ws_CO_30112022123311712706209779
+:ResultCode: 0
+:ResultDesc: The service request is processed successfully.
+:Amount: 1
+:MpesaReceiptNumber: QKU4YAOH8G
+:TransactionDate: 20221130123328
+:PhoneNumber: 254706209779
+-------------------------
+User: ::1 - November 30, 2022, 10:54 am
+:MerchantRequestID: 2281-36190145-1
+:CheckoutRequestID: ws_CO_30112022125323988706209779
+:ResultCode: 1037
+:ResultDesc: DS timeout user cannot be reached
+:Amount: 
+:MpesaReceiptNumber: 
+:TransactionDate: 
+:PhoneNumber: 
+-------------------------
+User: ::1 - November 30, 2022, 10:58 am
+:MerchantRequestID: 32290-38086098-1
+:CheckoutRequestID: ws_CO_30112022125759856706209779
+:ResultCode: 1032
+:ResultDesc: Request cancelled by user
+:Amount: 
+:MpesaReceiptNumber: 
+:TransactionDate: 
+:PhoneNumber: 
+-------------------------
+User: ::1 - November 30, 2022, 11:03 am
+:MerchantRequestID: 12418-37508785-1
+:CheckoutRequestID: ws_CO_30112022130251567706209779
+:ResultCode: 0
+:ResultDesc: The service request is processed successfully.
+:Amount: 1
+:MpesaReceiptNumber: QKU5YD6AWP
+:TransactionDate: 20221130130307
+:PhoneNumber: 254706209779
+-------------------------

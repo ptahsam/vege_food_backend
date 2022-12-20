@@ -1,0 +1,21 @@
+
+User: ::1 - November 27, 2022, 1:53 pm
+:MerchantRequestID: 29309-28045842-1
+:CheckoutRequestID: ws_CO_27112022155242457706209779
+:ResultCode: 0
+:ResultDesc: The service request is processed successfully.
+:Amount: 1
+:MpesaReceiptNumber: QKR1RRKHJ1
+:TransactionDate: 20221127155302
+:PhoneNumber: 254706209779
+-------------------------
+User: ::1 - November 27, 2022, 3:01 pm
+:MerchantRequestID: 32589-29667152-1
+:CheckoutRequestID: ws_CO_27112022165951075706209779
+:ResultCode: 0
+:ResultDesc: The service request is processed successfully.
+:Amount: 1
+:MpesaReceiptNumber: QKR0RX7C8S
+:TransactionDate: 20221127170019
+:PhoneNumber: 254706209779
+-------------------------

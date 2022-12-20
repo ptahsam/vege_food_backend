@@ -27,6 +27,12 @@ if (isset($_POST['uploadUserProfile'])) {
 	}
 }
 
+if (isset($_POST["saveTransactionData"])) {
+	$s = new Service();
+	$result = $s->saveTransactionData($_POST['refno'],$_POST["transid"],$_POST["status"]);
+	echo json_encode($result);
+}
+
 if (isset($_POST["generateOrder"])) {
 	$r = new Report();
 	$result = $r->generateOrder($_POST['orderrefno'], $_POST['userid']);

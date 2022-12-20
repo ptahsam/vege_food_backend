@@ -13,6 +13,61 @@ class Service
 		$this->con = $db->connect();
 	}
 
+	public function saveTransactionData($refno,$transid,$status)
+	{
+		$date = time();
+		$pre_stmt = $this->con->prepare("INSERT INTO `transaction_table`(`ref_no`, `transaction_id`, `status`, `date_added`) VALUES (?,?,?,?)");
+		$pre_stmt->bind_param("ssss",$refno,$transid,$status,$date);
+		$result = $pre_stmt->execute() or die($this->con->error);
+		if($result) {
+			return "SUCCESSFULLY_ADDED";
+		}
+		return "UNKNOWN_ERROR";
+	}
+
+	public function savePayment($type,$purpose,$amount)
+	{
+		$refno = uniqid("VP");
+		$date = time();
+		$pre_stmt = $this->con->prepare("INSERT INTO `payments_table`(`payment_refno`, `payment_type`, `payment_purpose`, `payment_amount`, `date_added`) VALUES (?,?,?,?,?)");
+		$pre_stmt->bind_param("sssss",$refno,$type,$purpose,$amount,$date);
+		$result = $pre_stmt->execute() or die($this->con->error);
+		if($result) {
+			if ($type == "Mpesa") {
+				return $refno;
+			}
+			return "SUCCESSFULLY_ADDED";
+		}
+		return "UNKNOWN_ERROR";
+	}
+
+	public function saveMpesaData($mechantrequestid,$checkoutrequestid,$resultcode,$resultdesc,$amount,$mpesareceipt,$phonenumber,$transactiondate)
+	{
+		$date = time();
+		$paymentrefno = $this->savePayment("Mpesa","order_payment",$amount);
+		$pre_stmt = $this->con->prepare("INSERT INTO `mpesa_info`(`payment_refno`, `MerchantRequestID`, `CheckoutRequestID`, `ResultCode`, `ResultDesc`, `Amount`, `MpesaReceiptNumber`, `PhoneNumber`, `TransactionDate`) VALUES (?,?,?,?,?,?,?,?,?)");
+		$pre_stmt->bind_param("sssssssss",$paymentrefno,$mechantrequestid,$checkoutrequestid,$resultcode,$resultdesc,$amount,$mpesareceipt,$phonenumber,$transactiondate);
+		$result = $pre_stmt->execute() or die($this->con->error);
+		if($result) {
+			$pre_stmt = $this->con->prepare("SELECT * FROM  transaction_table WHERE transaction_id =?");
+			$pre_stmt->bind_param("s",$checkoutrequestid);
+			$pre_stmt->execute() or die($this->con->error);
+			$result = $pre_stmt->get_result();
+			if ($result->num_rows > 0) {
+				$row = $result->fetch_assoc();
+				$orderrefno = $row["ref_no"];
+				$pre_stmt = $this->con->prepare("UPDATE `orders` SET `payment_id`=?,`date_added`=? WHERE order_refno = ?");
+				$pre_stmt->bind_param("sss",$paymentrefno,$date,$orderrefno);
+				$result = $pre_stmt->execute() or die($this->con->error);
+				if ($result) {
+					return "SUCCESSFULLY_ADDED";
+				}
+				return "UNKNOWN_ERROR";
+			}
+		}
+		return "UNKNOWN_ERROR";
+	}
+
 	public function clearUserCart($userid)
 	{
 		$pre_stmt = $this->con->prepare("DELETE FROM `cart` WHERE user_id = ?");
@@ -91,7 +146,7 @@ class Service
 		$description = "";
 
 		$pre_stmt = $this->con->prepare("INSERT INTO `orders`(`order_refno`, `user_id`, `payment_id`, `date_added`) VALUES (?,?,?,?)");
-		$pre_stmt->bind_param("siis", $ref_no, $userid, $paymentid, $date_added);
+		$pre_stmt->bind_param("siss", $ref_no, $userid, $paymentid, $date_added);
 		$result = $pre_stmt->execute() or die($this->con->error);
 		if($result) {
 			$rows = $this->getUserCartItems($userid);
@@ -247,6 +302,20 @@ class Service
 			return $rows;
 		}
 		return "NO_DATA";
+	}
+
+	public function getLatestCustomers(){
+		$pre_stmt = $this->con->prepare("SELECT * FROM users ORDER BY id DESC LIMIT 5 ");
+		$pre_stmt->execute() or die($this->con->error);
+        $result = $pre_stmt->get_result();
+        $rows = array();
+        if ($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+	            $rows[] = $row;
+	        }
+	            return $rows;
+        } 
+            return "NO_DATA";
 	}
 
 }

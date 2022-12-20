@@ -126,7 +126,7 @@ class User
 
 	public function getUserData($userid)
 	{
-		$pre_stmt = $this->con->prepare("SELECT a.id AS address_id, a.address, a.county, a.city, u.id, u.user_name, u.user_phone, u.user_email, u.user_photo FROM users u, user_address a WHERE u.id = a.user_id AND u.id = ?");
+		$pre_stmt = $this->con->prepare("SELECT a.id AS address_id, a.address, a.county, a.city, u.id, u.user_name, u.user_phone, u.user_email, u.user_photo, u.date_added FROM users u, user_address a WHERE u.id = a.user_id AND u.id = ?");
 		$pre_stmt->bind_param("i", $userid);
 		$pre_stmt->execute() or die($this->con->error);
 		$result = $pre_stmt->get_result();
@@ -161,9 +161,84 @@ class User
 			return "UNKNOWN_ERROR";
 		}
 	}
+
+	//CHECK WHETHER ADMIN IS REGISTERED
+	private function adminAlreadyRegistered($username, $email)
+	{
+		$pre_stmt = $this->con->prepare("SELECT id FROM admin WHERE username = ? AND email = ?");
+		$pre_stmt->bind_param("ss",$username,$email);
+		$pre_stmt->execute() or die($this->con->error);
+		$result = $pre_stmt->get_result();
+		if ($result->num_rows > 0) {
+			return 1;
+		}else{
+			return 0;
+		}
+
+	}
+
+	//REGISTER ADMIN
+	public function registerAdmin($username, $name, $email, $password)
+	{
+		if ($this->adminAlreadyRegistered($username,$email)) {
+			return "ADMIN_ALREADY_REGISTERED";
+		}else {
+
+			$pass_hash = password_hash($password,PASSWORD_BCRYPT,["cost"=>8]);
+
+			$profileimage = "";
+
+			$dateregistered = time();
+
+			$lastlogindate = "";
+
+			$updatedate = "";
+
+			$pre_stmt = $this->con->prepare("INSERT INTO `admin`(`username`, `name`, `email`, `password`, `profile_image`, `date_registered`, `last_logindate`, `update_date`) VALUES (?,?,?,?,?,?,?,?)");
+			$pre_stmt->bind_param("ssssssss", $username, $name, $email, $pass_hash, $profileimage, $dateregistered, $lastlogindate, $updatedate);
+			$result = $pre_stmt->execute() or die($this->con->error);
+			if ($result) {
+				return "SUCCESSFULLY_REGISTERED";
+			}else{
+				return "UNKOWN_ERROR";
+			}
+		}
+		
+	}
+
+	/*=====ADMIN LOGIN=====*/
+
+	public function adminLogin($username, $password)
+	{
+		$pre_stmt = $this->con->prepare("SELECT * FROM admin WHERE username = ?");
+		$pre_stmt->bind_param("s",$username);
+		$pre_stmt->execute() or die($this->con->error);
+		$result = $pre_stmt->get_result();
+
+		if ($result->num_rows < 1) {
+			return "NOT_REGISTERED";
+		}else{
+			$row = $result->fetch_assoc();
+			if (password_verify($password,$row["password"])) {
+				$_SESSION["adminid"] = $row["id"];
+				$_SESSION["adminusername"] = $row["username"];
+				$_SESSION["adminname"] = $row["name"];
+				$_SESSION["adminemail"] = $row["email"];
+				$_SESSION["adminprofileimage"] = $row["profile_image"];
+				$_SESSION["adminregistereddate"] = $row["date_registered"];
+				$_SESSION["adminlastlogin"] = $row["last_logindate"];
+				$_SESSION["adminupdatedate"] = $row["update_date"];
+				return "LOGGED_IN";
+			}else {
+				return "PASSWORD_NOT_MATCHED";
+			}
+		}
+	}
 }
 
 //$user = new User();
+
+//echo $user->registerAdmin("admin", "Admin", "admin@vegefood.com", "admin12345");
 //echo $user->userLogin("0706209779","PETER/sam123");
 //echo $user->registerUser("0706209779", "PETER/sam123");
 //echo $user->updateUserDetails("user_phone", "0706209779", "1");

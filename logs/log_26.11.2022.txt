@@ -1,0 +1,30 @@
+User: ::1 - November 26, 2022, 11:52 am
+:TransactionType: 
+:TransID: 
+:TransTime: 
+:TransAmount: 
+:BusinessShortCode: 
+:BillRefNumber: 
+:InvoiceNumber: 
+:OrgAccountBalance: 
+:ThirdPartyTransID: 
+:MSISDN: 
+:FirstName: 
+:MiddleName: 
+:LastName: 
+-------------------------
+User: ::1 - November 26, 2022, 12:08 pm
+:TransactionType: 
+:TransID: 
+:TransTime: 
+:TransAmount: 
+:BusinessShortCode: 
+:BillRefNumber: 
+:InvoiceNumber: 
+:OrgAccountBalance: 
+:ThirdPartyTransID: 
+:MSISDN: 
+:FirstName: 
+:MiddleName: 
+:LastName: 
+-------------------------

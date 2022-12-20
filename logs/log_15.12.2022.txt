@@ -1,0 +1,10 @@
+User: ::1 - December 15, 2022, 9:28 am
+:MerchantRequestID: 32576-88004482-1
+:CheckoutRequestID: ws_CO_15122022112743022706209779
+:ResultCode: 0
+:ResultDesc: The service request is processed successfully.
+:Amount: 1
+:MpesaReceiptNumber: QLF57Y99CT
+:TransactionDate: 20221215112846
+:PhoneNumber: 254706209779
+-------------------------

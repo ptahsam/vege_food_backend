@@ -96,7 +96,7 @@ class Report
 		$m = new Email();
 		$result = $m->sendEmailWithPDF($useremail, $subject, $message, $pdfpath, $pdfname);
 
-		return $result; 
+		return $pdfname; 
 	}
 }
 
